@@ -7,10 +7,15 @@ import java.util.List;
 public class main {
     public static void main(String[] args) throws SQLException {
         DBRetriever dbRetriever = new DBRetriever();
-        List<InvoiceTotal> invoices = dbRetriever.findInvoiceTotals();
+        /*List<InvoiceTotal> invoices = dbRetriever.findInvoiceTotals();
 
         for (InvoiceTotal inv : invoices) {
             System.out.println(inv);
+        }*/
+        List<InvoiceTotal> invoiceTotals =dbRetriever.findConfirmedAndPaidInvoiceTotals();
+        for (InvoiceTotal invoiceTotal : invoiceTotals) {
+            System.out.println(invoiceTotal);
         }
+
     }
 }
