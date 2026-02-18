@@ -16,6 +16,5 @@ public class main {
         for (InvoiceTotal invoiceTotal : invoiceTotals) {
             System.out.println(invoiceTotal);
         }
-
     }
 }

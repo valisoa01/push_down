@@ -1,5 +1,6 @@
 package Connection;
 
+import Classes.InvoiceStatusTotals;
 import Classes.InvoiceTotal;
 import Classes.InvoiceStatus;
 
@@ -69,4 +70,39 @@ public class DBRetriever {
         }
         return  resultats;
     }
+
+    public InvoiceStatusTotals computeStatusTotals() {
+
+        String sql = """
+        SELECT
+            SUM(CASE WHEN i.status = 'PAID'
+                     THEN il.quantity * il.unit_price ELSE 0 END) AS total_paid,
+            SUM(CASE WHEN i.status = 'CONFIRMED'
+                     THEN il.quantity * il.unit_price ELSE 0 END) AS total_confirmed,
+            SUM(CASE WHEN i.status = 'DRAFT'
+                     THEN il.quantity * il.unit_price ELSE 0 END) AS total_draft
+        FROM invoice_line il
+        JOIN invoice i ON i.id = il.invoice_id
+        """;
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            if (rs.next()) {
+                return new InvoiceStatusTotals(
+                        rs.getDouble("total_paid"),
+                        rs.getDouble("total_confirmed"),
+                        rs.getDouble("total_draft")
+                );
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return new InvoiceStatusTotals(0, 0, 0);
+    }
+
+
 }
