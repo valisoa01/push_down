@@ -12,9 +12,13 @@ public class main {
         for (InvoiceTotal inv : invoices) {
             System.out.println(inv);
         }*/
-        List<InvoiceTotal> invoiceTotals =dbRetriever.findConfirmedAndPaidInvoiceTotals();
+     /*   List<InvoiceTotal> invoiceTotals =dbRetriever.findConfirmedAndPaidInvoiceTotals();
         for (InvoiceTotal invoiceTotal : invoiceTotals) {
             System.out.println(invoiceTotal);
-        }
+        }*/
+
+        Double turnover = dbRetriever.computeWeightedTurnover();
+        System.out.printf("Chiffre d’affaires pondéré = %.2f%n", turnover);
+
     }
 }
