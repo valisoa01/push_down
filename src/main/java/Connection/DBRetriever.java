@@ -134,7 +134,6 @@ public class DBRetriever {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
         return 0.0;
     }
 
